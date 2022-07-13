@@ -17,7 +17,11 @@ const CreatePost = asyncHandler(
                 throw new Error('User not found');
             }
 
-            const newPost = await Post.create({ title, body, userId: user.id });
+            const newPost = await Post.create({
+                title,
+                body,
+                userId: user.id
+            });
 
             res.status(200).json(newPost);
         }
@@ -47,7 +51,7 @@ const updatePost = asyncHandler(
             const post = await Post.findOne({
                 where: {
                     isDeleted: false,
-                    userId: req.params.useruuid,
+                    userId: user.id,
                     uuid: req.params.postuuid,
                 }
             });
@@ -136,8 +140,9 @@ const deletePost = asyncHandler(
             const post = await Post.findOne({
                 where: {
                     uuid: req.params.postuuid,
-                    userId: req.params.useruuid,
+                    userId: user.id,
                     isDeleted: false,
+                    include: [User],
                 }
             });
 
@@ -209,8 +214,9 @@ const getOneUserPost = asyncHandler(
             const post = await Post.findOne({
                 where: {
                     uuid: req.params.postuuid,
-                    userId: req.params.useruuid,
+                    userId: parseInt(user.id),
                     isDeleted: false,
+                    include: [{ model: User }],
                 },
             });
 
@@ -222,6 +228,7 @@ const getOneUserPost = asyncHandler(
             res.status(200).json(post);
         }
         catch (error) {
+            console.log(error.message);
             throw error;
         }
     }
