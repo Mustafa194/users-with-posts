@@ -216,7 +216,6 @@ const getOneUserPost = asyncHandler(
                     uuid: req.params.postuuid,
                     userId: parseInt(user.id),
                     isDeleted: false,
-                    include: [{ model: User }],
                 },
             });
 

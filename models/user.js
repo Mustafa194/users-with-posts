@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Post, { foreignKey: 'userId', as: 'posts' });
+      this.hasMany(models.Post, { foreignKey: 'userId' });
     }
 
     // Hide the id from users
